@@ -1,0 +1,12 @@
+.dashboard_main {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 2rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .dashboard_main {
+    max-width: calc(100% - 250px - 1rem);
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,121 @@
+.dashboard_panel {
+  position: fixed;
+  min-height: 100vh;
+  background-color: var(--primary-light);
+  max-width: 250px;
+  min-width: 250px;
+  transform: translateX(-100%);
+  transition: transform 0.4s;
+  z-index: 10;
+  .burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px 0;
+    position: absolute;
+    top: 46px;
+    right: -45px;
+    background-color: transparent;
+    cursor: pointer;
+    transform: translateY(-9px);
+
+    span {
+      display: block;
+      position: relative;
+      width: 20px;
+      height: 2px;
+      background-color: white;
+      transition: transform 0.4s;
+
+      &:nth-child(1) {
+        transform-origin: right;
+      }
+
+      &:nth-child(3) {
+        transform-origin: right;
+      }
+    }
+
+    &.open {
+      span:nth-child(2) {
+        opacity: 0;
+      }
+      span:nth-child(1) {
+        transform: rotate(-45deg);
+      }
+      span:nth-child(3) {
+        transform: rotate(45deg);
+        bottom: -1px;
+      }
+    }
+  }
+
+  &.open {
+    transform: translateX(0);
+  }
+
+  .title {
+    margin-top: 2rem;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .cross {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 1rem 0;
+    cursor: pointer;
+  }
+
+  .dashboard_list {
+    margin-top: 2rem;
+
+    & > * a {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 2rem;
+      cursor: pointer;
+      transition: background-color 0.4s;
+
+      &:hover {
+        @extend .dashboard_list__active;
+      }
+
+      &.dashboard_list__active {
+        background-color: var(--background);
+
+        &::before {
+          content: "";
+          position: absolute;
+          display: block;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: 4px;
+          background-color: var(--primary);
+        }
+      }
+
+      span {
+        display: block;
+        padding-right: 1rem;
+
+        svg {
+          width: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .dashboard_panel {
+    transform: translateX(0);
+
+    .burger {
+      display: none;
+    }
+  }
+}

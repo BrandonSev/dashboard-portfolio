@@ -1,0 +1,95 @@
+@import "./styles/_reset.scss";
+@import url("https://fonts.googleapis.com/css2?family=Nunito&family=Roboto:wght@300;400;700&display=swap");
+
+:root {
+  --background: #333333;
+  --primary: #e4e4e4;
+  --primary-light: #2c2c2c;
+  --secondary: #00c4f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 18px;
+  font-family: "Roboto", sans-serif;
+  background-color: var(--background);
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  outline: none;
+  border: 0;
+  color: inherit;
+  font-size: 0.98rem;
+}
+
+.container {
+  max-width: 1330px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 0 auto;
+}
+
+.button {
+  display: inline-block;
+  background-color: var(--secondary);
+  padding: 1rem;
+  box-shadow: 0px 2px 13px rgba(0, 196, 240, 0.42);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.button_small {
+  padding: 0.5rem;
+}
+.active {
+  max-width: fit-content;
+  border-bottom: 3px solid var(--secondary);
+}
+.pulse {
+  animation: pulse 3s infinite;
+}
+.px-1 {
+  padding: 0 1rem;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #ffffff33;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: var(--background); /* or add it to the track */
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 172, 224, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(52, 172, 224, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 172, 224, 0);
+  }
+}
+
+@import "./styles/components/dashboard-login";
+@import "./styles/components/sidebar";
+@import "./styles/components/dashboard";
+@import "./styles/components/topbar";
+@import "./styles/components/projets-list";
+@import "./styles/components/new-project";

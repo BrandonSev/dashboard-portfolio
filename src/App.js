@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Route } from "react-router-dom";
+import { Routes } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import DashboardLogin from "./components/DashboardLogin";
+import Sidebar from "./components/Sidebar";
+import TopBar from "./components/TopBar";
+import ProjetsList from "./components/ProjetsList";
+import NewProject from "./components/NewProject";
 
 function App() {
+  const [user, setUser] = useState(true);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {!user ? (
+        <Routes>
+          <Route path="/" element={<DashboardLogin />} />
+        </Routes>
+      ) : (
+        <>
+          <Sidebar />
+          <TopBar />
+          <div className="dashboard_main">
+            <Routes>
+              <Route path="/" exact element={<Dashboard />} />
+              <Route path="/projets" exact element={<ProjetsList />} />
+              <Route path="/projets/nouveau" exact element={<NewProject />} />
+            </Routes>
+          </div>
+        </>
+      )}
+    </>
   );
 }
 

@@ -1,0 +1,30 @@
+.topbar {
+  position: sticky;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0px;
+  left: 0;
+  height: 92px;
+  width: 100%;
+  padding: 0 2rem 0 4rem;
+  background-color: var(--primary-light);
+
+  .topbar_user {
+    display: flex;
+
+    span {
+      display: block;
+      padding-left: 1rem;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .topbar {
+    padding-left: calc(250px + 2rem);
+    .topbar_title {
+      font-size: 2rem;
+    }
+  }
+}

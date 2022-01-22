@@ -1,0 +1,60 @@
+.project {
+  margin-top: 1rem;
+  .project_card {
+    padding: 2rem;
+    border: 1px solid #ffffff33;
+    border-radius: 5px;
+
+    .project_title {
+      font-size: 1.4rem;
+    }
+
+    .project_form {
+      .project_form__group {
+        margin-top: 2rem;
+
+        label {
+          display: block;
+          padding-bottom: 1rem;
+        }
+
+        input {
+          padding: 1rem 2rem;
+          width: 100%;
+          border-radius: 5px;
+          background-color: var(--primary-light);
+          border: 1px solid rgba(0, 196, 240, 0.82);
+          @extend .pulse;
+        }
+      }
+    }
+    .project_form__button {
+      margin-top: 3rem;
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .project {
+    .project_card {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .project_form {
+        form {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0 2rem;
+        }
+        .project_form__button {
+          display: flex;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+}

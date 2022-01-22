@@ -14,42 +14,6 @@
       font-size: 1.3rem;
     }
   }
-
-  .dashboard__table {
-    width: 100%;
-    white-space: nowrap;
-    overflow: auto;
-    margin-top: 2rem;
-
-    table {
-      display: table;
-      width: 100%;
-      overflow-x: auto;
-
-      tr,
-      th {
-        & > * {
-          padding: 2rem;
-        }
-      }
-
-      thead {
-        text-align: left;
-        font-weight: bold;
-        color: #ffffffac;
-      }
-
-      tbody {
-        & tr:nth-child(ODD) {
-          background-color: var(--primary-light);
-        }
-
-        tr {
-          padding: 3rem 0;
-        }
-      }
-    }
-  }
 }
 
 @media screen and (min-width: 1024px) {

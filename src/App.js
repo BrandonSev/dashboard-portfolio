@@ -7,6 +7,8 @@ import Sidebar from "./components/Sidebar";
 import TopBar from "./components/TopBar";
 import ProjetsList from "./components/ProjetsList";
 import NewProject from "./components/NewProject";
+import ImagesList from "./components/ImagesList";
+import NewImages from "./components/NewImages";
 
 function App() {
   const [user, setUser] = useState(true);
@@ -25,6 +27,8 @@ function App() {
               <Route path="/" exact element={<Dashboard />} />
               <Route path="/projets" exact element={<ProjetsList />} />
               <Route path="/projets/nouveau" exact element={<NewProject />} />
+              <Route path="/images" exact element={<ImagesList />} />
+              <Route path="/images/nouveau" exact element={<NewImages />} />
             </Routes>
           </div>
         </>

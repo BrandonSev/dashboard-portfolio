@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function TopBar() {
   return (
     <div className="topbar">
-      <div className="topbar_title">Gestion des projets</div>
+      <div className="topbar_title">
+        Gestion des {window.location.pathname.split("/")[1]}
+      </div>
       <div className="topbar_user">
         <p>Brandon Sev</p>
         <span>

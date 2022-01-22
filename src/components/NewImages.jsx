@@ -1,11 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-function NewProject() {
+function NewImages() {
   return (
-    <div>
+    <>
       <NavLink
-        to="/projets"
+        to="/images"
         className={({ isActive }) => (isActive ? "flex-center" : "")}
       >
         <span>
@@ -27,29 +27,13 @@ function NewProject() {
       <div className="dashboard_wrapper">
         <div className="dashboard_card">
           <div className="dashboard_title">
-            <h1>Publier un nouveau projet</h1>
+            <h1>Ajouter une nouvelle image</h1>
           </div>
           <div className="dashboard_form">
             <form action="">
               <div className="dashboard_form__group">
-                <label htmlFor="title">Titre du projet:</label>
-                <input type="text" />
-              </div>
-              <div className="dashboard_form__group">
-                <label htmlFor="title">Titre du projet:</label>
-                <input type="text" />
-              </div>
-              <div className="dashboard_form__group">
-                <label htmlFor="title">Titre du projet:</label>
-                <input type="text" />
-              </div>
-              <div className="dashboard_form__group">
-                <label htmlFor="title">Titre du projet:</label>
-                <input type="text" />
-              </div>
-              <div className="dashboard_form__group">
-                <label htmlFor="title">Titre du projet:</label>
-                <input type="text" />
+                <label htmlFor="title">Image:</label>
+                <input type="file" accept="jpeg,jpg,png" />
               </div>
             </form>
             <div className="dashboard_form__button">
@@ -60,8 +44,8 @@ function NewProject() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
-export default NewProject;
+export default NewImages;

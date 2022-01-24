@@ -9,11 +9,24 @@ import ProjetsList from "./components/ProjetsList";
 import NewProject from "./components/NewProject";
 import ImagesList from "./components/ImagesList";
 import NewImages from "./components/NewImages";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [user, setUser] = useState(true);
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {!user ? (
         <Routes>
           <Route path="/" element={<DashboardLogin />} />

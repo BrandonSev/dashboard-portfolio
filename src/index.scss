@@ -55,6 +55,16 @@ button {
   max-width: fit-content;
   border-bottom: 3px solid var(--secondary);
 }
+.error {
+  color: rgb(255, 0, 0);
+}
+.input-error {
+  border: 1px solid red !important;
+
+  ~ p {
+    padding-top: 1rem;
+  }
+}
 .pulse {
   animation: pulse 3s infinite;
 }
@@ -80,21 +90,99 @@ button {
     }
   }
   .dashboard_form {
+    margin-top: 2rem;
     .dashboard_form__group {
-      margin-top: 2rem;
-
+      margin-bottom: 2rem;
       label {
         display: block;
         padding-bottom: 1rem;
       }
 
       input {
-        padding: 1rem 2rem;
+        padding: 1rem;
         width: 100%;
+        height: 54px;
         border-radius: 5px;
         background-color: var(--primary-light);
-        border: 1px solid rgba(0, 196, 240, 0.82);
-        @extend .pulse;
+        border: 1px solid #ffffff33;
+        color: var(--primary);
+        outline: none;
+        &:focus,
+        &:focus-visible {
+          border: 1px solid var(--secondary);
+        }
+      }
+
+      textarea {
+        padding: 1rem;
+        width: 100%;
+        background-color: var(--primary-light);
+        border: 1px solid #ffffff33;
+        color: var(--primary);
+        outline: none;
+      }
+
+      input[type="checkbox"] {
+        width: initial;
+      }
+
+      .toggle {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+
+        input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          -webkit-transition: 0.4s;
+          transition: 0.4s;
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 26px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          -webkit-transition: 0.4s;
+          transition: 0.4s;
+        }
+
+        input:checked + .slider {
+          background-color: #2196f3;
+        }
+
+        input:focus + .slider {
+          box-shadow: 0 0 1px #2196f3;
+        }
+
+        input:checked + .slider:before {
+          -webkit-transform: translateX(26px);
+          -ms-transform: translateX(26px);
+          transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+          border-radius: 34px;
+        }
+
+        .slider.round:before {
+          border-radius: 50%;
+        }
       }
     }
   }

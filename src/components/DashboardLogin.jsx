@@ -1,6 +1,24 @@
+import axios from "axios";
 import React from "react";
+import { toast } from "react-toastify";
+import { useState } from "react/cjs/react.development";
 
-const DashboardLogin = () => {
+const DashboardLogin = ({ user, setUser }) => {
+  const [state, setState] = useState({});
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/api/login`, state, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setUser(true);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message ?? err);
+      });
+  };
   return (
     <>
       <div className="admin_left">
@@ -27,14 +45,30 @@ const DashboardLogin = () => {
           <form action="">
             <div className="form__group">
               <label htmlFor="email">Email:</label>
-              <input type="email" name="email" id="email" />
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={state.email}
+                onChange={(e) => setState({ ...state, email: e.target.value })}
+              />
             </div>
             <div className="form__group">
               <label htmlFor="password">Mot de passe:</label>
-              <input type="password" name="password" id="password" />
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={state.password}
+                onChange={(e) =>
+                  setState({ ...state, password: e.target.value })
+                }
+              />
             </div>
             <div className="form__group">
-              <button className="button pulse">Valider</button>
+              <button className="button pulse" onClick={handleClick}>
+                Valider
+              </button>
             </div>
           </form>
         </div>

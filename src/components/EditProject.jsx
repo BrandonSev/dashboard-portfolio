@@ -1,87 +1,59 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { NavLink, useNavigate } from "react-router-dom";
+import moment from "moment";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useState } from "react/cjs/react.development";
 import { validationSchema } from "../validation";
 
-const thumbsContainer = {
-  display: "flex",
-  flexDirection: "row",
-  flexWrap: "wrap",
-  marginTop: 16,
-};
-
-const thumb = {
-  display: "inline-flex",
-  borderRadius: 2,
-  border: "1px solid #FFFFFF33",
-  marginBottom: 8,
-  marginRight: 8,
-  width: 100,
-  height: 100,
-  padding: 4,
-  boxSizing: "border-box",
-};
-
-const thumbInner = {
-  display: "flex",
-  minWidth: 0,
-  overflow: "hidden",
-};
-
-const img = {
-  display: "block",
-  width: "auto",
-  height: "100%",
-};
-
-function NewProject() {
+function EditProject() {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [images, setImages] = useState([]);
-  const onDrop = useCallback((acceptedFiles) => {
-    setImages(acceptedFiles);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({ onDrop });
+  const [project, setProject] = useState({});
   const formik = useFormik({
     initialValues: {
-      title: "",
-      description: "",
-      start_date: "",
-      end_date: "",
-      active: false,
-      tags: "",
+      title: project.title,
+      description: project.description,
+      start_date: moment(project.start_date).format("Y-M-D"),
+      end_date: moment(project.end_date).format("Y-MM-DD"),
+      active: project.active,
+      tags: project.tags,
     },
+    enableReinitialize: true,
     validationSchema,
     onSubmit: async (values) => {
-      const formData = new FormData();
-      formData.append("data", JSON.stringify(values));
-      images.forEach((image) => {
-        formData.append("images", image, image.name);
-      });
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/projects`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
-        }
-      );
-      if (res.status === 201) {
-        navigate("/projets");
-        toast.success("Le projet a bien été ajouté");
-      }
+      await axios
+        .put(`${process.env.REACT_APP_API_URL}/api/projects/${project.id}`, {
+          ...values,
+          active: values.active[0] === "on" ? 1 : 0,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            navigate("/projets");
+            toast.success("Le projet a bien été modifié");
+          } else {
+            toast(res.data.message);
+          }
+        });
     },
   });
-  const thumbs = images.map((file) => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <img src={URL.createObjectURL(file)} style={img} alt={file.name} />
-      </div>
-    </div>
-  ));
+
+  useEffect(() => {
+    (async () => {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/api/projects/${id}`)
+        .then((res) => {
+          setProject(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })();
+  }, [id]);
+
   return (
     <div>
       <NavLink
@@ -107,7 +79,7 @@ function NewProject() {
       <div className="dashboard_wrapper">
         <div className="dashboard_card">
           <div className="dashboard_title">
-            <h1>Publier un nouveau projet</h1>
+            <h1>Editer le projet: {project.title}</h1>
           </div>
           <div className="dashboard_form">
             <form>
@@ -140,11 +112,11 @@ function NewProject() {
               <div className="dashboard_form__group">
                 <label htmlFor="start_date">Date de début:</label>
                 <input
-                  type="datetime-local"
+                  type="date"
                   name="start_date"
                   className={formik.errors.start_date ? "input-error" : ""}
                   onChange={formik.handleChange}
-                  value={formik.values.start_date}
+                  value={moment(formik.values.start_date).format("Y-MM-DD")}
                 />
                 {formik.errors.start_date && (
                   <p className="error">{formik.errors.start_date}</p>
@@ -153,11 +125,11 @@ function NewProject() {
               <div className="dashboard_form__group">
                 <label htmlFor="end_date">Date de fin:</label>
                 <input
-                  type="datetime-local"
+                  type="date"
                   name="end_date"
                   className={formik.errors.end_date ? "input-error" : ""}
                   onChange={formik.handleChange}
-                  value={formik.values.end_date}
+                  value={moment(formik.values.end_date).format("Y-MM-DD")}
                 />
                 {formik.errors.end_date && (
                   <p className="error">{formik.errors.end_date}</p>
@@ -170,9 +142,8 @@ function NewProject() {
                     type="checkbox"
                     name="active"
                     id="active"
-                    onChange={(e) => {
-                      formik.setFieldValue("active", e.target.checked);
-                    }}
+                    defaultChecked={formik.values.active}
+                    onChange={formik.handleChange}
                   />
                   <span className="slider round"></span>
                 </label>
@@ -192,23 +163,6 @@ function NewProject() {
                   <p className="error">{formik.errors.tags}</p>
                 )}
               </div>
-              <div className="dashboard_form__group">
-                <label htmlFor="">Images</label>
-                <div
-                  {...getRootProps({ className: "dropzone" })}
-                  style={{ border: "1px solid #FFFFFF33", padding: "1rem" }}
-                >
-                  <input {...getInputProps()} />
-                  {isDragActive ? (
-                    <p>Déposer içi vos fichiers</p>
-                  ) : (
-                    <p>Glisser / cliquer içi pour deposer vos images</p>
-                  )}
-                </div>
-                {acceptedFiles && (
-                  <aside style={thumbsContainer}>{thumbs}</aside>
-                )}
-              </div>
             </form>
             <div className="dashboard_form__button">
               <button
@@ -226,4 +180,4 @@ function NewProject() {
   );
 }
 
-export default NewProject;
+export default EditProject;

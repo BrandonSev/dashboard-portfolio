@@ -70,6 +70,7 @@ function ProjetsList() {
                         id={project.id}
                         projects={projects}
                         setProjects={setProjects}
+                        flashMessage={"Le projet a bien été supprimé"}
                       />
                     </td>
                     <td>

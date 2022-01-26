@@ -23,7 +23,7 @@ function NewImages() {
           withCredentials: true,
         })
         .then(async (res) => {
-          if (res.status === 200) {
+          if (res.status === 201) {
             navigate("/images");
             toast.success("Votre image a bien été ajoutée");
           } else {
@@ -31,7 +31,7 @@ function NewImages() {
           }
         })
         .catch((err) => {
-          toast(err.message);
+          toast(err.response.data.message);
         });
     })();
   };

@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 
-function Remove({ path, id, setProjects, projects }) {
+function Remove({ path, id, setProjects, projects, flashMessage }) {
   const handleClick = async (e) => {
     e.preventDefault();
     const confirm = window.confirm("Etes vous sur?");
@@ -14,7 +14,7 @@ function Remove({ path, id, setProjects, projects }) {
         .then((res) => {
           if (res.status === 204) {
             setProjects(projects.filter((project) => project.id !== id));
-            toast.success("Le projet a bien été supprimé");
+            toast.success(flashMessage);
           } else {
             toast(res.data.message);
           }

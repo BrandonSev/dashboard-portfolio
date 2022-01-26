@@ -1,48 +1,47 @@
 import axios from "axios";
-import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useState } from "react/cjs/react.development";
-import { imagesValidationSchema } from "../validation";
+import { useEffect, useState } from "react/cjs/react.development";
 
-function NewImages() {
+function EditImages() {
   const navigate = useNavigate();
-  const [file, setFile] = useState();
-  const [project, setProject] = useState([]);
-  const formik = useFormik({
-    initialValues: {
-      images: "",
-      project_id: 0,
-    },
-    ValidationSchema: imagesValidationSchema,
-    onSubmit: async (values) => {
-      if (!values.images && values.project_id === 0)
-        toast("Tout les champs sont nécessaire a la création d'une image");
-      const formData = new FormData();
-      formData.append("images", file);
-      formData.append("data", JSON.stringify(values));
-      await axios
-        .post(`${process.env.REACT_APP_API_URL}/api/images`, formData, {
-          withCredentials: true,
-        })
-        .then(async (res) => {
-          if (res.status === 201) {
-            navigate("/images");
-            toast.success("Votre image a bien été ajoutée");
-          } else {
-            toast(res.data.message);
-          }
-        })
-        .catch((err) => {
-          toast(err.response.data.message);
-        });
-    },
-  });
+  const location = useLocation();
+  const [file, setFile] = useState(location.state[0]);
+  const [projectId, setProjectId] = useState();
+  const [project, setProject] = useState();
+
   const handleChange = (e) => {
     setFile(e.target.files[0]);
   };
+
+  const handleSelectChange = (e) => {
+    setProjectId(e.target.value);
+  };
+
+  const handleClick = (e) => {
+    (async () => {
+      const formData = new FormData();
+      if (file) formData.append("images", file);
+      if (projectId)
+        formData.append("data", JSON.stringify({ project_id: projectId }));
+      await axios
+        .put(
+          `${process.env.REACT_APP_API_URL}/api/images/${location.state.id}`,
+          formData
+        )
+        .then((res) => {
+          navigate("/images");
+          toast.success("L'image a bien été modifiée");
+        })
+        .catch((err) => {
+          toast(err.response.message);
+        });
+    })();
+  };
+
   useEffect(() => {
     (async () => {
       await axios
@@ -55,6 +54,7 @@ function NewImages() {
         });
     })();
   }, []);
+
   return (
     <div className="images">
       <NavLink
@@ -80,7 +80,7 @@ function NewImages() {
       <div className="dashboard_wrapper">
         <div className="dashboard_card">
           <div className="dashboard_title">
-            <h1>Ajouter une nouvelle image</h1>
+            <h1>Modifier une image</h1>
           </div>
           <div className="dashboard_form">
             <form action="">
@@ -88,35 +88,43 @@ function NewImages() {
                 <label htmlFor="title">Image:</label>
                 <input
                   type="file"
-                  name="images"
+                  name="title"
                   accept="jpeg,jpg,png"
                   onChange={handleChange}
-                  value={formik.values.images}
                 />
-                {file && (
+                {location.state && !file ? (
+                  <img
+                    src={`${process.env.REACT_APP_API_URL}/images/${location.state.src}`}
+                    width={220}
+                    style={{ marginTop: "1rem" }}
+                    alt={location.state.src}
+                  />
+                ) : (
                   <img
                     src={URL.createObjectURL(file)}
                     width={220}
                     style={{ marginTop: "1rem" }}
-                    alt={file.name.split(".")[0]}
+                    alt={location.state.src}
                   />
                 )}
               </div>
               <div className="dashboard_form__group">
                 <label htmlFor="project">Projets:</label>
                 <select
-                  name="project_id"
+                  name="project"
                   id="project"
-                  onChange={formik.handleChange}
-                  value={formik.values.project_id}
-                  className={formik.errors.project_id ? "input-error" : ""}
+                  onChange={handleSelectChange}
                 >
-                  <option selected="selected">Selectionner le projet</option>
-                  {project.length ? (
+                  {project ? (
                     project.map((project) => {
                       return (
                         <option
                           value={project.id}
+                          selected={
+                            location.state.project_id === project.id
+                              ? true
+                              : false
+                          }
                         >{`${project.id}: ${project.title}`}</option>
                       );
                     })
@@ -132,9 +140,9 @@ function NewImages() {
               <button
                 type="submit"
                 className="button pulse"
-                onClick={formik.handleSubmit}
+                onClick={handleClick}
               >
-                Valider
+                Modifier
               </button>
             </div>
           </div>
@@ -144,4 +152,4 @@ function NewImages() {
   );
 }
 
-export default NewImages;
+export default EditImages;

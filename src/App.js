@@ -16,6 +16,7 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { userContext } from "./store";
 import EditProject from "./components/EditProject";
+import EditImages from "./components/EditImages";
 
 function App() {
   const [user, setUser] = useState(0);
@@ -67,6 +68,7 @@ function App() {
               <Route path="/projets/edit/:id" exact element={<EditProject />} />
               <Route path="/images" exact element={<ImagesList />} />
               <Route path="/images/nouveau" exact element={<NewImages />} />
+              <Route path="/images/edit/:id" exact element={<EditImages />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>

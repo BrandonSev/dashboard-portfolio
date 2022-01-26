@@ -4,7 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { validationSchema } from "../validation";
+import { projectValidationSchema } from "../validation";
 
 const thumbsContainer = {
   display: "flex",
@@ -54,7 +54,7 @@ function NewProject() {
       active: false,
       tags: "",
     },
-    validationSchema,
+    validationSchema: projectValidationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
       formData.append("data", JSON.stringify(values));

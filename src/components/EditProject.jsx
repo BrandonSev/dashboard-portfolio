@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useState } from "react/cjs/react.development";
-import { validationSchema } from "../validation";
+import { projectValidationSchema } from "../validation";
 
 function EditProject() {
   const { id } = useParams();
@@ -23,7 +23,7 @@ function EditProject() {
       tags: project.tags,
     },
     enableReinitialize: true,
-    validationSchema,
+    projectValidationSchema,
     onSubmit: async (values) => {
       await axios
         .put(`${process.env.REACT_APP_API_URL}/api/projects/${project.id}`, {

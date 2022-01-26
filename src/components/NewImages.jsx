@@ -1,9 +1,54 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useState } from "react/cjs/react.development";
 
 function NewImages() {
+  const navigate = useNavigate();
+  const [file, setFile] = useState();
+  const [project, setProject] = useState([]);
+  const [projectId, setProjectId] = useState();
+  const handleChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append("images", file);
+    formData.append("data", JSON.stringify(projectId));
+    (async () => {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/api/images`, formData, {
+          withCredentials: true,
+        })
+        .then(async (res) => {
+          if (res.status === 200) {
+            navigate("/images");
+            toast.success("Votre image a bien été ajoutée");
+          } else {
+            toast(res.data.message);
+          }
+        })
+        .catch((err) => {
+          toast(err.message);
+        });
+    })();
+  };
+  useEffect(() => {
+    (async () => {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/api/projects`)
+        .then((res) => {
+          setProject(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })();
+  }, []);
   return (
-    <>
+    <div className="images">
       <NavLink
         to="/images"
         className={({ isActive }) => (isActive ? "flex-center" : "")}
@@ -33,18 +78,60 @@ function NewImages() {
             <form action="">
               <div className="dashboard_form__group">
                 <label htmlFor="title">Image:</label>
-                <input type="file" accept="jpeg,jpg,png" />
+                <input
+                  type="file"
+                  name="title"
+                  accept="jpeg,jpg,png"
+                  onChange={handleChange}
+                />
+                {file && (
+                  <img
+                    src={URL.createObjectURL(file)}
+                    width={220}
+                    style={{ marginTop: "1rem" }}
+                    alt={file.name.split(".")[0]}
+                  />
+                )}
+              </div>
+              <div className="dashboard_form__group">
+                <label htmlFor="project">Projets:</label>
+                <select
+                  name="project"
+                  id="project"
+                  onChange={(e) => setProjectId({ project_id: e.target.value })}
+                >
+                  <option selected="selected" disabled>
+                    Selectionner le projet
+                  </option>
+                  {project.length ? (
+                    project.map((project) => {
+                      return (
+                        <option
+                          value={project.id}
+                        >{`${project.id}: ${project.title}`}</option>
+                      );
+                    })
+                  ) : (
+                    <option value="null">
+                      Aucun projet actuellement en ligne
+                    </option>
+                  )}
+                </select>
               </div>
             </form>
             <div className="dashboard_form__button">
-              <button type="submit" className="button pulse">
+              <button
+                type="submit"
+                className="button pulse"
+                onClick={handleSubmit}
+              >
                 Valider
               </button>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

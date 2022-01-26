@@ -36,6 +36,10 @@ input {
   color: var(--primary);
 }
 
+select {
+  @extend input;
+}
+
 .container {
   max-width: 1330px;
   padding-left: 15px;
@@ -285,3 +289,4 @@ input {
 @import "./styles/components/topbar";
 @import "./styles/components/projets-list";
 @import "./styles/components/new-project";
+@import "./styles/components/new-images";

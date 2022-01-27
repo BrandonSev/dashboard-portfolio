@@ -19,6 +19,9 @@ import EditProject from "./components/EditProject";
 import EditImages from "./components/EditImages";
 import TechnologyList from "./components/TechnologyList";
 import NewTechnology from "./components/NewTechnology";
+import CategoryList from "./components/CategoryList";
+import NewCategory from "./components/NewCategory";
+import EditCategory from "./components/EditCategory";
 
 function App() {
   const [user, setUser] = useState(0);
@@ -72,8 +75,27 @@ function App() {
               <Route path="/images/nouveau" exact element={<NewImages />} />
               <Route path="/images/edit/:id" exact element={<EditImages />} />
               <Route path="/technologie" exact element={<TechnologyList />} />
-              <Route path="/technologie/nouveau" exact element={<NewTechnology />} />
-              <Route path="/technologie/edit/:id" exact element={<EditImages />} />
+              <Route
+                path="/technologie/nouveau"
+                exact
+                element={<NewTechnology />}
+              />
+              <Route
+                path="/technologie/edit/:id"
+                exact
+                element={<EditImages />}
+              />
+              <Route path="/categorie" exact element={<CategoryList />} />
+              <Route
+                path="/categorie/nouveau"
+                exact
+                element={<NewCategory />}
+              />
+              <Route
+                path="/categorie/edit/:id"
+                exact
+                element={<EditCategory />}
+              />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>

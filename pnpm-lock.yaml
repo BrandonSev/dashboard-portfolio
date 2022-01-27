@@ -8,6 +8,7 @@ specifiers:
   formik: ^2.2.9
   js-cookie: ^3.0.1
   moment: ^2.29.1
+  prettier: ^2.5.1
   react: ^17.0.2
   react-dom: ^17.0.2
   react-dropzone: ^11.5.1
@@ -26,6 +27,7 @@ dependencies:
   formik: 2.2.9_react@17.0.2
   js-cookie: 3.0.1
   moment: 2.29.1
+  prettier: 2.5.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-dropzone: 11.5.1_react@17.0.2
@@ -7519,6 +7521,12 @@ packages:
   /prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+    dev: false
+
+  /prettier/2.5.1:
+    resolution: {integrity: sha512-vBZcPRUR5MZJwoyi3ZoyQlc1rXeEck8KgeC9AwwOn+exuxLxq5toTRDTSaVrXHxelDMHy9zlicw8u66yxoSUFg==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: false
 
   /pretty-bytes/5.6.0:

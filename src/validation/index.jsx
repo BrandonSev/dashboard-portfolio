@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const projectValidationSchema = Yup.object().shape({
+const projectValidationSchema = Yup.object().shape({
   title: Yup.string()
     .min(5, "Le titre doit faire au minimum 5 caractères")
     .required("Ce champ est obligatoire"),
@@ -12,7 +12,19 @@ export const projectValidationSchema = Yup.object().shape({
   tags: Yup.string().required("Ce champ est obligatoire"),
 });
 
-export const imagesValidationSchema = Yup.object().shape({
+const imagesValidationSchema = Yup.object().shape({
   images: Yup.mixed().required("Ce champ est obligatoire"),
   project_id: Yup.number().required("Ce champ est obligatoire"),
 });
+
+const categoryValidationSchema = Yup.object().shape({
+  title: Yup.string()
+    .min(3, "Le titre doit faire au minimum 3 caractères")
+    .required("Ce champ est obligatoire"),
+});
+
+export {
+  projectValidationSchema,
+  imagesValidationSchema,
+  categoryValidationSchema,
+};

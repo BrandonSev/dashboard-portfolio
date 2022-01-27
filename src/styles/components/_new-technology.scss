@@ -1,0 +1,6 @@
+  @media screen and (min-width: 1024px) {
+    .technology .dashboard_wrapper .dashboard_card .dashboard_form form :nth-child(2) {
+      grid-column: 2 / 4;
+      grid-row: 1;
+    }
+  }

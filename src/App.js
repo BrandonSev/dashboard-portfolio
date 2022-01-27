@@ -17,6 +17,8 @@ import axios from "axios";
 import { userContext } from "./store";
 import EditProject from "./components/EditProject";
 import EditImages from "./components/EditImages";
+import TechnologyList from "./components/TechnologyList";
+import NewTechnology from "./components/NewTechnology";
 
 function App() {
   const [user, setUser] = useState(0);
@@ -69,6 +71,9 @@ function App() {
               <Route path="/images" exact element={<ImagesList />} />
               <Route path="/images/nouveau" exact element={<NewImages />} />
               <Route path="/images/edit/:id" exact element={<EditImages />} />
+              <Route path="/technologie" exact element={<TechnologyList />} />
+              <Route path="/technologie/nouveau" exact element={<NewTechnology />} />
+              <Route path="/technologie/edit/:id" exact element={<EditImages />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>

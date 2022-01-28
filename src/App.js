@@ -22,6 +22,9 @@ import NewTechnology from "./components/NewTechnology";
 import CategoryList from "./components/CategoryList";
 import NewCategory from "./components/NewCategory";
 import EditCategory from "./components/EditCategory";
+import UnderCategoryList from "./components/UnderCategoryList";
+import NewUnderCategoryList from "./components/NewUnderCategoryList";
+import EditUnderCategoryList from "./components/EditUnderCategoryList";
 
 function App() {
   const [user, setUser] = useState(0);
@@ -95,6 +98,21 @@ function App() {
                 path="/categorie/edit/:id"
                 exact
                 element={<EditCategory />}
+              />
+              <Route
+                path="/sous-categorie"
+                exact
+                element={<UnderCategoryList />}
+              />
+              <Route
+                path="/sous-categorie/nouveau"
+                exact
+                element={<NewUnderCategoryList />}
+              />
+              <Route
+                path="/sous-categorie/edit/:id"
+                exact
+                element={<EditUnderCategoryList />}
               />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

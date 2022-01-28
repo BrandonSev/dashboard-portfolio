@@ -23,8 +23,15 @@ const categoryValidationSchema = Yup.object().shape({
     .required("Ce champ est obligatoire"),
 });
 
+const underCategoryValidationSchema = Yup.object().shape({
+  title: Yup.string()
+    .min(3, "Le titre doit faire au minimum 3 caractères")
+    .required("Ce champ est obligatoire"),
+});
+
 export {
   projectValidationSchema,
   imagesValidationSchema,
   categoryValidationSchema,
+  underCategoryValidationSchema,
 };

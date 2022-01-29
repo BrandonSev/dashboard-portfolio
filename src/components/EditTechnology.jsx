@@ -102,7 +102,7 @@ const EditTechnology = () => {
           <div className="dashboard_form">
             <form action="">
               <div className="dashboard_form__group">
-                <label htmlFor="title">Logo:</label>
+                <label htmlFor="logo">Logo:</label>
                 <input
                   type="file"
                   name="logo"

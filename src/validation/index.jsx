@@ -14,7 +14,9 @@ const projectValidationSchema = Yup.object().shape({
 
 const imagesValidationSchema = Yup.object().shape({
   images: Yup.mixed().required("Ce champ est obligatoire"),
-  project_id: Yup.number().required("Ce champ est obligatoire"),
+  project_id: Yup.number()
+    .min(1, "Veuillez séléctionner un projet")
+    .required("Ce champ est obligatoire"),
 });
 
 const categoryValidationSchema = Yup.object().shape({

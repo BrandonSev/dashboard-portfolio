@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const EditUnderCategory = () => {
-  const [categoryId, setCategoryId] = useState(0);
   const [categoryList, setCategoryList] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,7 +18,7 @@ const EditUnderCategory = () => {
       await axios
         .put(
           `${process.env.REACT_APP_API_URL}/api/underCategories/${location.state.underCategory.id}`,
-          { ...values, category_id: categoryId },
+          values,
           {
             withCredentials: true,
           }
@@ -37,10 +36,6 @@ const EditUnderCategory = () => {
         });
     },
   });
-
-  const handleSelectChange = (e) => {
-    setCategoryId(e.target.value);
-  };
 
   useEffect(() => {
     (async () => {
@@ -97,11 +92,12 @@ const EditUnderCategory = () => {
                 )}
               </div>
               <div className="dashboard_form__group">
-                <label htmlFor="title">Catégorie:</label>
+                <label htmlFor="category_id">Catégorie:</label>
                 <select
-                  name="category"
-                  id="category"
-                  onChange={handleSelectChange}
+                  name="category_id"
+                  id="category_id"
+                  onChange={formik.handleChange}
+                  className={formik.errors.category_id ? "input-error" : ""}
                 >
                   {categoryList ? (
                     categoryList.map((category) => {

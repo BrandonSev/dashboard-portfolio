@@ -7,7 +7,6 @@ import axios from "axios";
 
 const NewUnderCategory = () => {
   const [category, setCategory] = useState([]);
-  const [categoryId, setCategoryId] = useState(0);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -17,16 +16,9 @@ const NewUnderCategory = () => {
     validationSchema: underCategoryValidationSchema,
     onSubmit: async (values) => {
       await axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/api/underCategories`,
-          {
-            ...values,
-            category_id: categoryId,
-          },
-          {
-            withCredentials: true,
-          }
-        )
+        .post(`${process.env.REACT_APP_API_URL}/api/underCategories`, values, {
+          withCredentials: true,
+        })
         .then(async (res) => {
           if (res.status === 201) {
             navigate("/sous-categorie");
@@ -40,9 +32,6 @@ const NewUnderCategory = () => {
         });
     },
   });
-  const handleSelectChange = (e) => {
-    setCategoryId(e.target.value);
-  };
   useEffect(() => {
     (async () => {
       await axios
@@ -100,10 +89,11 @@ const NewUnderCategory = () => {
                 <select
                   name="category_id"
                   id="category"
-                  onChange={handleSelectChange}
-                  value={categoryId}
+                  onChange={formik.handleChange}
+                  className={formik.errors.category_id ? "input-error" : ""}
+                  value={formik.values.category_id}
                 >
-                  <option selected="selected">
+                  <option selected="selected" disabled value={0}>
                     Selectionner une catégorie
                   </option>
                   {category.length ? (
@@ -115,11 +105,14 @@ const NewUnderCategory = () => {
                       );
                     })
                   ) : (
-                    <option value="null">
+                    <option value={0} disabled>
                       Aucune catégorie actuellement en ligne
                     </option>
                   )}
                 </select>
+                {formik.errors.category_id && (
+                  <p className="error">{formik.errors.category_id}</p>
+                )}
               </div>
             </form>
             <div className="dashboard_form__button">

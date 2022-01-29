@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { technologyValidationSchema } from "../validation";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const NewTechnology = () => {
+const EditTechnology = () => {
+  const location = useLocation();
   const [category, setCategory] = useState([]);
   const [underCategories, setUnderCategories] = useState([]);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      title: "",
-      logo: "",
-      category_id: 0,
-      under_category_id: 0,
+      title: location.state.name,
+      logo: location.state.logo,
+      category_id: location.state.category_id,
+      under_category_id: location.state.under_category_id,
     },
     enableReinitialize: true,
     validationSchema: technologyValidationSchema,
@@ -26,20 +27,21 @@ const NewTechnology = () => {
           title: values.title,
           category_id: values.category_id,
           under_category_id: values.under_category_id,
+          logo: values.logo,
         })
       );
       formData.append("images", values.logo);
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/technologies`,
+      const res = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/technologies/${location.state.id}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
         }
       );
-      if (res.status === 201) {
+      if (res.status === 200) {
         navigate("/technologie");
-        toast.success("La technologie a bien été ajouté");
+        toast.success("La technologie a bien été modifiée");
       } else {
         toast.error(res.data.message);
       }
@@ -59,15 +61,14 @@ const NewTechnology = () => {
 
   useEffect(() => {
     (async () => {
-      if (formik.values.category_id !== 0)
-        await axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/api/categories?under_category=${formik.values.category_id}`
-          )
-          .then((res) => {
-            setUnderCategories(res.data);
-          })
-          .catch((err) => console.log(err));
+      await axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/api/categories?under_category=${formik.values.category_id}`
+        )
+        .then((res) => {
+          setUnderCategories(res.data);
+        })
+        .catch((err) => console.log(err));
     })();
   }, [formik.values.category_id]);
 
@@ -96,7 +97,7 @@ const NewTechnology = () => {
       <div className="dashboard_wrapper">
         <div className="dashboard_card">
           <div className="dashboard_title">
-            <h1>Ajouter une nouvelle technologie</h1>
+            <h1>Modifier une technologie</h1>
           </div>
           <div className="dashboard_form">
             <form action="">
@@ -114,7 +115,14 @@ const NewTechnology = () => {
                 {formik.errors.logo && (
                   <p className="error">{formik.errors.logo}</p>
                 )}
-                {formik.values.logo && (
+                {formik.values.logo === formik.initialValues.logo ? (
+                  <img
+                    src={`${process.env.REACT_APP_API_URL}/images/${formik.values.logo}`}
+                    width={220}
+                    style={{ marginTop: "1rem" }}
+                    alt={formik.values.logo.filename}
+                  />
+                ) : (
                   <img
                     src={URL.createObjectURL(formik.values.logo)}
                     width={220}
@@ -149,14 +157,12 @@ const NewTechnology = () => {
                   }
                   className={formik.errors.category_id ? "input-error" : ""}
                 >
-                  <option selected value={0}>
-                    Veuillez choisir une catégorie
-                  </option>
                   {category ? (
                     category.map((category) => {
                       return (
                         <option
                           value={category.id}
+                          selected={location.state.id === category.id}
                         >{`${category.id}: ${category.title}`}</option>
                       );
                     })
@@ -168,40 +174,37 @@ const NewTechnology = () => {
                   <p className="error">{formik.errors.category_id}</p>
                 )}
               </div>
-              {formik.values.category_id !== 0 && (
-                <div className="dashboard_form__group">
-                  <label htmlFor="under_category_id">Sous-catégorie:</label>
-                  <select
-                    name="under_category_id"
-                    id="under_category_id"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={
-                      formik.errors.under_category_id ? "input-error" : ""
-                    }
-                  >
-                    <option selected value="">
-                      Veuillez choisir une catégorie
-                    </option>
-                    {underCategories ? (
-                      underCategories.map((underCategory) => {
-                        return (
-                          <option
-                            value={underCategory.id}
-                          >{`${underCategory.id}: ${underCategory.title}`}</option>
-                        );
-                      })
-                    ) : (
-                      <option value="">
-                        Aucun projet actuellement en ligne
-                      </option>
-                    )}
-                  </select>
-                  {formik.errors.under_category_id && (
-                    <p className="error">{formik.errors.under_category_id}</p>
+              <div className="dashboard_form__group">
+                <label htmlFor="under_category_id">Sous-catégorie:</label>
+                <select
+                  name="under_category_id"
+                  id="under_category_id"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={
+                    formik.errors.under_category_id ? "input-error" : ""
+                  }
+                >
+                  {underCategories ? (
+                    underCategories.map((underCategory) => {
+                      return (
+                        <option
+                          value={underCategory.id}
+                          selected={
+                            location.state.under_category.id ===
+                            underCategory.id
+                          }
+                        >{`${underCategory.id}: ${underCategory.title}`}</option>
+                      );
+                    })
+                  ) : (
+                    <option value="">Aucun projet actuellement en ligne</option>
                   )}
-                </div>
-              )}
+                </select>
+                {formik.errors.under_category_id && (
+                  <p className="error">{formik.errors.under_category_id}</p>
+                )}
+              </div>
             </form>
             <div className="dashboard_form__button">
               <button
@@ -219,4 +222,4 @@ const NewTechnology = () => {
   );
 };
 
-export default NewTechnology;
+export default EditTechnology;

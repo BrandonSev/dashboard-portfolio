@@ -29,6 +29,17 @@ const underCategoryValidationSchema = Yup.object().shape({
     .required("Ce champ est obligatoire"),
 });
 
+export const technologyValidationSchema = Yup.object().shape({
+  logo: Yup.mixed().required("Le logo est obligatoire"),
+  title: Yup.string().required("Ce champ est obligatoire"),
+  category_id: Yup.number()
+    .min(1, "Veuillez choisir une catégorie")
+    .required("Ce champ est obligatoire"),
+  under_category_id: Yup.number()
+    .min(1, "Veuillez choisir une sous-catégorie")
+    .required("Ce champ est obligatoire"),
+});
+
 export {
   projectValidationSchema,
   imagesValidationSchema,

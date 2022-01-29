@@ -25,6 +25,7 @@ import EditCategory from "./components/EditCategory";
 import UnderCategoryList from "./components/UnderCategoryList";
 import NewUnderCategoryList from "./components/NewUnderCategoryList";
 import EditUnderCategoryList from "./components/EditUnderCategoryList";
+import EditTechnology from "./components/EditTechnology";
 
 function App() {
   const [user, setUser] = useState(0);
@@ -86,7 +87,7 @@ function App() {
               <Route
                 path="/technologie/edit/:id"
                 exact
-                element={<EditImages />}
+                element={<EditTechnology />}
               />
               <Route path="/categorie" exact element={<CategoryList />} />
               <Route

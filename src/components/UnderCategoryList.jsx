@@ -61,7 +61,7 @@ const UnderCategoryList = () => {
               {underCategoryList.length ? (
                 underCategoryList.map((underCategory, i) => {
                   return (
-                    <tr>
+                    <tr key={underCategory.id}>
                       <td>{underCategory.title}</td>
                       <td>
                         {categorylist.length > 0 && categorylist[i]?.title}

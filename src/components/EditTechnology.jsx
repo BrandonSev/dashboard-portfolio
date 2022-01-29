@@ -161,6 +161,7 @@ const EditTechnology = () => {
                     category.map((category) => {
                       return (
                         <option
+                          key={category.id}
                           value={category.id}
                           selected={location.state.id === category.id}
                         >{`${category.id}: ${category.title}`}</option>
@@ -189,6 +190,7 @@ const EditTechnology = () => {
                     underCategories.map((underCategory) => {
                       return (
                         <option
+                          key={underCategory.id}
                           value={underCategory.id}
                           selected={
                             location.state.under_category.id ===

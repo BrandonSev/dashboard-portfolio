@@ -48,7 +48,7 @@ const TechnologyList = () => {
               {technologies.length ? (
                 technologies.map((tech) => {
                   return (
-                    <tr>
+                    <tr key={tech.id}>
                       <td>
                         <img
                           src={`${process.env.REACT_APP_API_URL}/images/${tech.logo}`}

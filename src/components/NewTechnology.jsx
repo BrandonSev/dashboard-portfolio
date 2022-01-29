@@ -156,6 +156,7 @@ const NewTechnology = () => {
                     category.map((category) => {
                       return (
                         <option
+                          key={category.id}
                           value={category.id}
                         >{`${category.id}: ${category.title}`}</option>
                       );

@@ -103,6 +103,7 @@ const EditUnderCategory = () => {
                     categoryList.map((category) => {
                       return (
                         <option
+                          key={category.id}
                           value={category.id}
                           selected={
                             location.state.underCategory.category_id ===

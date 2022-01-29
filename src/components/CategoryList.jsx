@@ -41,7 +41,7 @@ const CategoryList = () => {
               {categoryList.length ? (
                 categoryList.map((category) => {
                   return (
-                    <tr>
+                    <tr key={category.id}>
                       <td>{category.title}</td>
                       <td className="table_icon">
                         <span>

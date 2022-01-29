@@ -47,7 +47,7 @@ function ProjetsList() {
             {projects.length ? (
               projects.map((project) => {
                 return (
-                  <tr>
+                  <tr key={project.id}>
                     <td>{project.title}</td>
                     <td>{project.description}</td>
                     <td>{moment(project.start_date).format("DD/MM/Y")}</td>

@@ -5,42 +5,45 @@ import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react/cjs/react.development";
+import { useFormik } from "formik";
+import { imagesValidationSchema } from "../validation";
 
 function EditImages() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [file, setFile] = useState(location.state[0]);
-  const [projectId, setProjectId] = useState();
   const [project, setProject] = useState();
-
-  const handleChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  const handleSelectChange = (e) => {
-    setProjectId(e.target.value);
-  };
-
-  const handleClick = (e) => {
-    (async () => {
+  const formik = useFormik({
+    initialValues: {
+      images: location.state.src,
+      project_id: location.state.project_id,
+    },
+    enableReinitialize: true,
+    validationSchema: imagesValidationSchema,
+    onSubmit: async (values) => {
       const formData = new FormData();
-      if (file) formData.append("images", file);
-      if (projectId)
-        formData.append("data", JSON.stringify({ project_id: projectId }));
-      await axios
-        .put(
-          `${process.env.REACT_APP_API_URL}/api/images/${location.state.id}`,
-          formData
-        )
-        .then((res) => {
-          navigate("/images");
-          toast.success("L'image a bien été modifiée");
+      formData.append(
+        "data",
+        JSON.stringify({
+          project_id: values.project_id,
         })
-        .catch((err) => {
-          toast(err.response.message);
-        });
-    })();
-  };
+      );
+      formData.append("images", values.images);
+      const res = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/images/${location.state.id}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
+      if (res.status === 200) {
+        navigate("/images");
+        toast.success("L'image a bien été modifié");
+      } else {
+        toast.error(res.data.message);
+      }
+    },
+  });
 
   useEffect(() => {
     (async () => {
@@ -70,7 +73,7 @@ function EditImages() {
             viewBox="0 0 16 16"
           >
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
             />
           </svg>
@@ -85,46 +88,50 @@ function EditImages() {
           <div className="dashboard_form">
             <form action="">
               <div className="dashboard_form__group">
-                <label htmlFor="title">Image:</label>
+                <label htmlFor="images">Image:</label>
                 <input
                   type="file"
-                  name="title"
+                  name="images"
                   accept="jpeg,jpg,png"
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    formik.setFieldValue("images", e.target.files[0])
+                  }
                 />
-                {location.state && !file ? (
+                {formik.errors.images && (
+                  <p className="error">{formik.errors.images}</p>
+                )}
+                {formik.values.images === formik.initialValues.images ? (
                   <img
-                    src={`${process.env.REACT_APP_API_URL}/images/${location.state.src}`}
+                    src={`${process.env.REACT_APP_API_URL}/images/${formik.values.images}`}
                     width={220}
                     style={{ marginTop: "1rem" }}
-                    alt={location.state.src}
+                    alt={formik.values.images.filename}
                   />
                 ) : (
                   <img
-                    src={URL.createObjectURL(file)}
+                    src={URL.createObjectURL(formik.values.images)}
                     width={220}
                     style={{ marginTop: "1rem" }}
-                    alt={location.state.src}
+                    alt={formik.values.images.src}
                   />
                 )}
               </div>
               <div className="dashboard_form__group">
-                <label htmlFor="project">Projets:</label>
+                <label htmlFor="project_id">Projets:</label>
                 <select
-                  name="project"
-                  id="project"
-                  onChange={handleSelectChange}
+                  name="project_id"
+                  id="project_id"
+                  onChange={formik.handleChange}
+                  className={formik.errors.project_id ? "input-error" : ""}
                 >
+                  <option disabled>Veuillez choisir un projet</option>
                   {project ? (
                     project.map((project) => {
                       return (
                         <option
+                          key={project.id}
                           value={project.id}
-                          selected={
-                            location.state.project_id === project.id
-                              ? true
-                              : false
-                          }
+                          selected={location.state.project_id === project.id}
                         >{`${project.id}: ${project.title}`}</option>
                       );
                     })
@@ -134,13 +141,16 @@ function EditImages() {
                     </option>
                   )}
                 </select>
+                {formik.errors.project_id && (
+                  <p className="error">{formik.errors.project_id}</p>
+                )}
               </div>
             </form>
             <div className="dashboard_form__button">
               <button
                 type="submit"
                 className="button pulse"
-                onClick={handleClick}
+                onClick={formik.handleSubmit}
               >
                 Modifier
               </button>

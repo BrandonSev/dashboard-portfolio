@@ -120,6 +120,7 @@ function NewImages() {
                     project.map((project) => {
                       return (
                         <option
+                          key={project.id}
                           value={project.id}
                         >{`${project.id}: ${project.title}`}</option>
                       );

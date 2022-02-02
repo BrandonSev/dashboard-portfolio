@@ -21,7 +21,7 @@ function ProjetsList() {
     })();
   }, []);
   return (
-    <div className="dashboard_content__body">
+    <div className="project_list dashboard_content__body">
       <div className="dashboard_content__header">
         <h1>Liste des projets</h1>
         <div className="button_action">

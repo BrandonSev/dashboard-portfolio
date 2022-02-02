@@ -1,4 +1,4 @@
-.dashboard_content__body {
+.project_list.dashboard_content__body {
   width: 100%;
   margin-top: 2rem;
   padding: 2rem;
@@ -14,10 +14,20 @@
       font-size: 1.3rem;
     }
   }
+
+  .dashboard__table{
+    tbody {
+      td:nth-child(2) {
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
 }
 
 @media screen and (min-width: 1024px) {
-  .dashboard_content__body {
+  .project_list.dashboard_content__body {
     .dashboard_content__header {
       h1 {
         font-size: 2rem;

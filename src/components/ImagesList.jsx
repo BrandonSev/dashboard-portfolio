@@ -1,9 +1,8 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { useState } from "react/cjs/react.development";
 import Remove from "./Remove";
 
 function ImagesList() {

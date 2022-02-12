@@ -1,10 +1,9 @@
 import axios from "axios";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react/cjs/react.development";
 import { useFormik } from "formik";
 import { imagesValidationSchema } from "../validation";
 

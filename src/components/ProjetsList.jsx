@@ -34,6 +34,7 @@ function ProjetsList() {
         <table>
           <thead>
             <tr>
+              <th scope={"col"}>Aperçu du projet</th>
               <th scope={"col"}>Nom du projet</th>
               <th scope={"col"}>Description</th>
               <th scope={"col"}>Date de début</th>
@@ -48,10 +49,17 @@ function ProjetsList() {
               projects.map((project) => {
                 return (
                   <tr key={project.id}>
+                    <td style={{ textAlign: "center" }}>
+                      <img
+                        src={`${process.env.REACT_APP_API_URL}/images/${project.images[0].src}`}
+                        alt={project.images[0].alt}
+                        width={90}
+                      />
+                    </td>
                     <td>{project.title}</td>
                     <td>{project.description}</td>
                     <td>{moment(project.start_date).format("DD/MM/Y")}</td>
-                    <td>{moment(project.send_date).format("DD/MM/Y")}</td>
+                    <td>{moment(project.end_date).format("DD/MM/Y")}</td>
                     <td>{project.tags}</td>
                     <td className="table_icon">
                       <NavLink to={`/projets/edit/${project.id}`}>

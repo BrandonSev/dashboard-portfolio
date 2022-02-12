@@ -1,7 +1,6 @@
 import axios from "axios";
-import React from "react";
+import React, {useState} from "react";
 import { toast } from "react-toastify";
-import { useState } from "react/cjs/react.development";
 
 const DashboardLogin = ({ user, setUser }) => {
   const [state, setState] = useState({});

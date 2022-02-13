@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import { toast } from "react-toastify";
 
 const DashboardLogin = ({ setUser }) => {
-  const [state, setState] = useState({});
+  const [state, setState] = useState({email: '', password: ''});
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -12,8 +12,12 @@ const DashboardLogin = ({ setUser }) => {
         withCredentials: true,
       })
       .then((res) => {
-        localStorage.setItem('token', res.data.token);
-        setUser(true);
+        if(res.status === 200) {
+          setUser(true);
+          toast.success(res.data.message)
+        }else {
+          toast.error(res.data.message ?? "Une erreur est survenue")
+        }
       })
       .catch((err) => {
         toast.error(err.response.data.message ?? err);

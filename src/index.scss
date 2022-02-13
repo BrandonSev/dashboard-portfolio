@@ -25,6 +25,7 @@ a {
 }
 
 button {
+  background-color: transparent;
   outline: none;
   border: 0;
   color: inherit;
@@ -50,7 +51,7 @@ select {
   display: inline-block;
   background-color: var(--secondary);
   padding: 1rem;
-  box-shadow: 0px 2px 13px rgba(0, 196, 240, 0.42);
+  box-shadow: 0 2px 13px rgba(0, 196, 240, 0.42);
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;

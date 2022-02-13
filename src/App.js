@@ -28,10 +28,9 @@ import EditTechnology from "./components/EditTechnology";
 
 function App() {
   const [user, setUser] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-      if(localStorage.getItem('token')){
-          setUser(1)
-      }
       (async () =>
         await axios
           .get(`${process.env.REACT_APP_API_URL}/api/jwtid`, {
@@ -40,10 +39,12 @@ function App() {
           .then((res) => {
             if(res.status === 200){
                 setUser(res.data.id);
+                setLoading(false)
             }
           })
           .catch((err) => {
-            console.log(err);
+              setLoading(false)
+              console.log(err);
           }))();
   }, [user]);
   return (
@@ -59,7 +60,7 @@ function App() {
         draggable
         pauseOnHover
       />
-      {user === 0 ? (
+      {!loading && user === 0 ? (
         <Routes>
           <Route
             path="/"
@@ -68,9 +69,11 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       ) : (
+          <>
+              {loading ? '' : (
         <userContext.Provider value={{ user, setuser: setUser }}>
           <Sidebar />
-          <TopBar />
+          <TopBar setUser={setUser} />
           <div className="dashboard_main">
             <Routes>
               <Route path="/" exact element={<Dashboard />} />
@@ -121,6 +124,8 @@ function App() {
             </Routes>
           </div>
         </userContext.Provider>
+      )}
+          </>
       )}
     </>
   );

@@ -1,9 +1,11 @@
 import React from "react";
+import Logout from "./Logout";
 
-function TopBar() {
+function TopBar({ setUser }) {
   return (
     <div className="topbar">
       <div className="topbar_user">
+        <Logout setUser={setUser} />
         <p>Brandon Sev</p>
         <span>
           <svg

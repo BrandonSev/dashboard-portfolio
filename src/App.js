@@ -11,7 +11,6 @@ import ImagesList from "./components/ImagesList";
 import NewImages from "./components/NewImages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { userContext } from "./store";
@@ -30,20 +29,23 @@ import EditTechnology from "./components/EditTechnology";
 function App() {
   const [user, setUser] = useState(0);
   useEffect(() => {
-    if (Cookies.get("jwt")) {
+      if(localStorage.getItem('token')){
+          setUser(1)
+      }
       (async () =>
         await axios
           .get(`${process.env.REACT_APP_API_URL}/api/jwtid`, {
             withCredentials: true,
           })
           .then((res) => {
-            setUser(res.data.id);
+            if(res.status === 200){
+                setUser(res.data.id);
+            }
           })
           .catch((err) => {
             console.log(err);
           }))();
-    }
-  }, []);
+  }, [user]);
   return (
     <>
       <ToastContainer

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useState} from "react";
 import { toast } from "react-toastify";
 
-const DashboardLogin = ({ user, setUser }) => {
+const DashboardLogin = ({ setUser }) => {
   const [state, setState] = useState({});
 
   const handleClick = async (e) => {
@@ -12,6 +12,7 @@ const DashboardLogin = ({ user, setUser }) => {
         withCredentials: true,
       })
       .then((res) => {
+        localStorage.setItem('token', res.data.token);
         setUser(true);
       })
       .catch((err) => {

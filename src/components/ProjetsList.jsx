@@ -39,6 +39,7 @@ function ProjetsList() {
               <th scope={"col"}>Date de début</th>
               <th scope={"col"}>Date de fin</th>
               <th scope={"col"}>Tags</th>
+              <th scope={"col"}>Url</th>
               <th scope={"col"}>Gérer</th>
               <th scope={"col"}>Status</th>
             </tr>
@@ -60,6 +61,7 @@ function ProjetsList() {
                     <td>{moment(project.start_date).format("DD/MM/Y")}</td>
                     <td>{moment(project.end_date).format("DD/MM/Y")}</td>
                     <td>{project.tags}</td>
+                    <td>{project.url}</td>
                     <td className="table_icon">
                       <NavLink to={`/projets/edit/${project.id}`}>
                         <svg

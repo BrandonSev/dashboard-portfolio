@@ -20,6 +20,7 @@ function EditProject() {
       end_date: moment(project.end_date).format("Y-MM-DD"),
       active: project.active,
       tags: project.tags,
+      url: project.url,
     },
     enableReinitialize: true,
     projectValidationSchema,
@@ -157,6 +158,21 @@ function EditProject() {
                   className={formik.errors.tags ? "input-error" : ""}
                   onChange={formik.handleChange}
                   value={formik.values.tags}
+                />
+                {formik.errors.tags && (
+                  <p className="error">{formik.errors.tags}</p>
+                )}
+              </div>
+              <div className="dashboard_form__group">
+                <label htmlFor="tags">Url:</label>
+                <input
+                  type="text"
+                  name="url"
+                  id="url"
+                  placeholder="Lien du site"
+                  className={formik.errors.url ? "input-error" : ""}
+                  onChange={formik.handleChange}
+                  value={formik.values.url}
                 />
                 {formik.errors.tags && (
                   <p className="error">{formik.errors.tags}</p>

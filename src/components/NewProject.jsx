@@ -53,6 +53,7 @@ function NewProject() {
       end_date: "",
       active: false,
       tags: "",
+      url: "",
     },
     validationSchema: projectValidationSchema,
     onSubmit: async (values) => {
@@ -187,6 +188,21 @@ function NewProject() {
                   className={formik.errors.tags ? "input-error" : ""}
                   onChange={formik.handleChange}
                   value={formik.values.tags}
+                />
+                {formik.errors.tags && (
+                  <p className="error">{formik.errors.tags}</p>
+                )}
+              </div>
+              <div className="dashboard_form__group">
+                <label htmlFor="tags">Url:</label>
+                <input
+                  type="text"
+                  name="url"
+                  id="url"
+                  placeholder="Lien du site"
+                  className={formik.errors.url ? "input-error" : ""}
+                  onChange={formik.handleChange}
+                  value={formik.values.url}
                 />
                 {formik.errors.tags && (
                   <p className="error">{formik.errors.tags}</p>

@@ -8,6 +8,7 @@ import Remove from "./Remove";
 function ImagesList() {
   const [images, setImages] = useState([]);
   const [projectName, setProjectName] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
       await axios
@@ -23,15 +24,18 @@ function ImagesList() {
 
   useEffect(() => {
     (async () => {
-      images.map(async (image) => {
-        await axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/api/projects/${image.project_id}`
-          )
-          .then((res) => {
-            setProjectName((prevState) => [...prevState, res.data]);
-          });
-      });
+      if (images) {
+        images.map(async (image) => {
+          await axios
+            .get(
+              `${process.env.REACT_APP_API_URL}/api/projects/${image.project_id}`
+            )
+            .then((res) => {
+              setProjectName((prevState) => [...prevState, res.data]);
+            });
+        });
+      }
+      setLoading(false);
     })();
   }, [images]);
 
@@ -58,7 +62,7 @@ function ImagesList() {
               </tr>
             </thead>
             <tbody>
-              {images.length ? (
+              {!loading && images.length ? (
                 images.map((image, i) => {
                   return (
                     <tr key={image.id}>

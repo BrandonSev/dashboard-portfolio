@@ -85,7 +85,7 @@ function NewImages() {
                   type="file"
                   name="images"
                   id="images"
-                  accept="jpeg,jpg,png"
+                  accept="image/jpeg,image/jpg,image/png,image/svg+xml"
                   className={formik.errors.images ? "input-error" : ""}
                   onChange={(e) =>
                     formik.setFieldValue("images", e.target.files[0])
@@ -112,9 +112,11 @@ function NewImages() {
                   value={formik.values.project_id}
                   className={formik.errors.project_id ? "input-error" : ""}
                 >
-                  <option selected="selected" disabled value={0}>
-                    Selectionner le projet
-                  </option>
+                  {!formik.values.project_id && (
+                    <option value={""} disabled>
+                      Selectionner le projet
+                    </option>
+                  )}
                   {project.length ? (
                     project.map((project) => {
                       return (

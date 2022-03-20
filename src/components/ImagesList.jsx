@@ -7,7 +7,6 @@ import Remove from "./Remove";
 
 function ImagesList() {
   const [images, setImages] = useState([]);
-  const [projectName, setProjectName] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
@@ -19,25 +18,9 @@ function ImagesList() {
         .catch((err) => {
           console.log(err);
         });
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      if (images.length) {
-        images.map(async (image) => {
-          await axios
-            .get(
-              `${process.env.REACT_APP_API_URL}/api/projects/${image.project_id}`
-            )
-            .then((res) => {
-              setProjectName((prevState) => [...prevState, res.data]);
-            });
-        });
-      }
       setLoading(false);
     })();
-  }, [images]);
+  }, []);
 
   return (
     <div className="dashboard_wrapper">
@@ -63,7 +46,7 @@ function ImagesList() {
             </thead>
             <tbody>
               {!loading && images.length ? (
-                images.map((image, i) => {
+                images.map((image) => {
                   return (
                     <tr key={image.id}>
                       <td>
@@ -77,7 +60,7 @@ function ImagesList() {
                       </td>
                       <td>{image.src.split("-")[1].split(".")[0]}</td>
                       <td>{moment(image.created_at).format("DD/MM/Y")}</td>
-                      <td>{projectName.length > 0 && projectName[i]?.title}</td>
+                      <td>{image.project_name}</td>
                       <td className="table_icon">
                         <span>
                           <Link to={`/images/edit/${image.id}`} state={image}>

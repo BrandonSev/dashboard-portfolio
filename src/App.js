@@ -31,21 +31,21 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-      (async () =>
-        await axios
-          .get(`${process.env.REACT_APP_API_URL}/api/jwtid`, {
-            withCredentials: true,
-          })
-          .then((res) => {
-            if(res.status === 200){
-                setUser(res.data.id);
-                setLoading(false)
-            }
-          })
-          .catch((err) => {
-              setLoading(false)
-              console.log(err);
-          }))();
+    (async () =>
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/api/jwtid`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            setUser(res.data.id);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        }))();
   }, [user]);
   return (
     <>
@@ -69,63 +69,79 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       ) : (
-          <>
-              {loading ? '' : (
-        <userContext.Provider value={{ user, setuser: setUser }}>
-          <Sidebar />
-          <TopBar setUser={setUser} />
-          <div className="dashboard_main">
-            <Routes>
-              <Route path="/" exact element={<Dashboard />} />
-              <Route path="/projets" exact element={<ProjetsList />} />
-              <Route path="/projets/nouveau" exact element={<NewProject />} />
-              <Route path="/projets/edit/:id" exact element={<EditProject />} />
-              <Route path="/images" exact element={<ImagesList />} />
-              <Route path="/images/nouveau" exact element={<NewImages />} />
-              <Route path="/images/edit/:id" exact element={<EditImages />} />
-              <Route path="/technologie" exact element={<TechnologyList />} />
-              <Route
-                path="/technologie/nouveau"
-                exact
-                element={<NewTechnology />}
-              />
-              <Route
-                path="/technologie/edit/:id"
-                exact
-                element={<EditTechnology />}
-              />
-              <Route path="/categorie" exact element={<CategoryList />} />
-              <Route
-                path="/categorie/nouveau"
-                exact
-                element={<NewCategory />}
-              />
-              <Route
-                path="/categorie/edit/:id"
-                exact
-                element={<EditCategory />}
-              />
-              <Route
-                path="/sous-categorie"
-                exact
-                element={<UnderCategoryList />}
-              />
-              <Route
-                path="/sous-categorie/nouveau"
-                exact
-                element={<NewUnderCategoryList />}
-              />
-              <Route
-                path="/sous-categorie/edit/:id"
-                exact
-                element={<EditUnderCategoryList />}
-              />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </div>
-        </userContext.Provider>
-      )}
-          </>
+        <>
+          {!loading && (
+            <userContext.Provider value={{ user, setuser: setUser }}>
+              <Sidebar />
+              <TopBar setUser={setUser} />
+              <div className="dashboard_main">
+                <Routes>
+                  <Route path="/" exact element={<Dashboard />} />
+                  <Route path="/projets" exact element={<ProjetsList />} />
+                  <Route
+                    path="/projets/nouveau"
+                    exact
+                    element={<NewProject />}
+                  />
+                  <Route
+                    path="/projets/edit/:id"
+                    exact
+                    element={<EditProject />}
+                  />
+                  <Route path="/images" exact element={<ImagesList />} />
+                  <Route path="/images/nouveau" exact element={<NewImages />} />
+                  <Route
+                    path="/images/edit/:id"
+                    exact
+                    element={<EditImages />}
+                  />
+                  <Route
+                    path="/technologie"
+                    exact
+                    element={<TechnologyList />}
+                  />
+                  <Route
+                    path="/technologie/nouveau"
+                    exact
+                    element={<NewTechnology />}
+                  />
+                  <Route
+                    path="/technologie/edit/:id"
+                    exact
+                    element={<EditTechnology />}
+                  />
+                  <Route path="/categorie" exact element={<CategoryList />} />
+                  <Route
+                    path="/categorie/nouveau"
+                    exact
+                    element={<NewCategory />}
+                  />
+                  <Route
+                    path="/categorie/edit/:id"
+                    exact
+                    element={<EditCategory />}
+                  />
+                  <Route
+                    path="/sous-categorie"
+                    exact
+                    element={<UnderCategoryList />}
+                  />
+                  <Route
+                    path="/sous-categorie/nouveau"
+                    exact
+                    element={<NewUnderCategoryList />}
+                  />
+                  <Route
+                    path="/sous-categorie/edit/:id"
+                    exact
+                    element={<EditUnderCategoryList />}
+                  />
+                  <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+              </div>
+            </userContext.Provider>
+          )}
+        </>
       )}
     </>
   );

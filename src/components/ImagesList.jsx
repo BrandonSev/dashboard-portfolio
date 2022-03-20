@@ -24,7 +24,7 @@ function ImagesList() {
 
   useEffect(() => {
     (async () => {
-      if (images) {
+      if (images.length) {
         images.map(async (image) => {
           await axios
             .get(

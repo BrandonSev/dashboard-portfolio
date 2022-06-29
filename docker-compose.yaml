@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  react:
+    container_name: react-dashboard
+    build: 
+      dockerfile: ./Dockerfile.dev
+      context: .
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    volumes:
+      - .:/app
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+
+networks:
+  default:
+    external:
+      name: dashboard-portfolio

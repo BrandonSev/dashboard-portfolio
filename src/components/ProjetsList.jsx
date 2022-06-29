@@ -94,7 +94,7 @@ function ProjetsList() {
               })
             ) : (
               <tr style={{ textAlign: "center" }}>
-                <td colSpan={7}>
+                <td colSpan={9}>
                   Vous n'avez actuellement aucun projet en ligne
                 </td>
               </tr>

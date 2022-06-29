@@ -163,7 +163,7 @@ const EditTechnology = () => {
                         <option
                           key={category.id}
                           value={category.id}
-                          selected={location.state.id === category.id}
+                          selected={location.state.category_id === category.id}
                         >{`${category.id}: ${category.title}`}</option>
                       );
                     })
@@ -193,7 +193,7 @@ const EditTechnology = () => {
                           key={underCategory.id}
                           value={underCategory.id}
                           selected={
-                            location.state.under_category.id ===
+                            location.state.under_category_id ===
                             underCategory.id
                           }
                         >{`${underCategory.id}: ${underCategory.title}`}</option>

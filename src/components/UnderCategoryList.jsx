@@ -5,7 +5,6 @@ import axios from "axios";
 
 const UnderCategoryList = () => {
   const [underCategoryList, setUnderCategoryList] = useState([]);
-  const [categorylist, setCategoryList] = useState([]);
   useEffect(() => {
     (async () => {
       await axios
@@ -18,21 +17,6 @@ const UnderCategoryList = () => {
         });
     })();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      underCategoryList.map(async (underCategory) => {
-        await axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/api/categories/${underCategory.category_id}`
-          )
-          .then((res) => {
-            setCategoryList((prevState) => [...prevState, res.data]);
-          })
-          .catch((err) => console.log(err));
-      });
-    })();
-  }, [underCategoryList]);
 
   return (
     <div className="dashboard_wrapper">
@@ -63,9 +47,7 @@ const UnderCategoryList = () => {
                   return (
                     <tr key={underCategory.id}>
                       <td>{underCategory.title}</td>
-                      <td>
-                        {categorylist.length > 0 && categorylist[i]?.title}
-                      </td>
+                      <td>{underCategory.categoryTitle}</td>
                       <td className="table_icon">
                         <span>
                           <Link

@@ -76,6 +76,7 @@ function NewProject() {
       }
     },
   });
+
   const thumbs = images.map((file) => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
@@ -117,6 +118,7 @@ function NewProject() {
                 <input
                   type="text"
                   name="title"
+                  id="title"
                   className={formik.errors.title ? "input-error" : ""}
                   onChange={formik.handleChange}
                   value={formik.values.title}
@@ -126,23 +128,11 @@ function NewProject() {
                 )}
               </div>
               <div className="dashboard_form__group">
-                <label htmlFor="description">Description:</label>
-                <textarea
-                  name="description"
-                  rows={10}
-                  onChange={formik.handleChange}
-                  value={formik.values.description}
-                  className={formik.errors.description ? "input-error" : ""}
-                />
-                {formik.errors.description && (
-                  <p className="error">{formik.errors.description}</p>
-                )}
-              </div>
-              <div className="dashboard_form__group">
                 <label htmlFor="start_date">Date de début:</label>
                 <input
                   type="datetime-local"
                   name="start_date"
+                  id="start_date"
                   className={formik.errors.start_date ? "input-error" : ""}
                   onChange={formik.handleChange}
                   value={formik.values.start_date}
@@ -156,12 +146,44 @@ function NewProject() {
                 <input
                   type="datetime-local"
                   name="end_date"
+                  id="end_date"
                   className={formik.errors.end_date ? "input-error" : ""}
                   onChange={formik.handleChange}
                   value={formik.values.end_date}
                 />
                 {formik.errors.end_date && (
                   <p className="error">{formik.errors.end_date}</p>
+                )}
+              </div>
+              <div className="dashboard_form__group">
+                <label htmlFor="description">Description:</label>
+                <textarea
+                  name="description"
+                  id="description"
+                  rows={10}
+                  onChange={formik.handleChange}
+                  value={formik.values.description}
+                  className={formik.errors.description ? "input-error" : ""}
+                />
+                {formik.errors.description && (
+                  <p className="error">{formik.errors.description}</p>
+                )}
+              </div>
+              <div className="dashboard_form__group">
+                <label htmlFor="">Images</label>
+                <div
+                  {...getRootProps({ className: "dropzone" })}
+                  style={{ border: "1px solid #FFFFFF33", padding: "1rem" }}
+                >
+                  <input {...getInputProps()} />
+                  {isDragActive ? (
+                    <p>Déposer içi vos fichiers</p>
+                  ) : (
+                    <p>Glisser / cliquer içi pour deposer vos images</p>
+                  )}
+                </div>
+                {acceptedFiles && (
+                  <aside style={thumbsContainer}>{thumbs}</aside>
                 )}
               </div>
               <div className="dashboard_form__group">
@@ -206,23 +228,6 @@ function NewProject() {
                 />
                 {formik.errors.tags && (
                   <p className="error">{formik.errors.tags}</p>
-                )}
-              </div>
-              <div className="dashboard_form__group">
-                <label htmlFor="">Images</label>
-                <div
-                  {...getRootProps({ className: "dropzone" })}
-                  style={{ border: "1px solid #FFFFFF33", padding: "1rem" }}
-                >
-                  <input {...getInputProps()} />
-                  {isDragActive ? (
-                    <p>Déposer içi vos fichiers</p>
-                  ) : (
-                    <p>Glisser / cliquer içi pour deposer vos images</p>
-                  )}
-                </div>
-                {acceptedFiles && (
-                  <aside style={thumbsContainer}>{thumbs}</aside>
                 )}
               </div>
             </form>

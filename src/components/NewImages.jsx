@@ -16,8 +16,6 @@ function NewImages() {
     },
     validationSchema: imagesValidationSchema,
     onSubmit: async (values) => {
-      if (!values.images && values.project_id === 0)
-        toast("Tout les champs sont nécessaire a la création d'une image");
       const formData = new FormData();
       formData.append("images", values.images);
       formData.append("data", JSON.stringify(values));
@@ -112,11 +110,9 @@ function NewImages() {
                   value={formik.values.project_id}
                   className={formik.errors.project_id ? "input-error" : ""}
                 >
-                  {!formik.values.project_id && (
-                    <option value={""} disabled>
-                      Selectionner le projet
-                    </option>
-                  )}
+                  <option value={""} selected>
+                    Selectionner le projet
+                  </option>
                   {project.length ? (
                     project.map((project) => {
                       return (
@@ -127,7 +123,7 @@ function NewImages() {
                       );
                     })
                   ) : (
-                    <option value="0">
+                    <option value="0" disabled>
                       Aucun projet actuellement en ligne
                     </option>
                   )}

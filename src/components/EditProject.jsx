@@ -28,7 +28,10 @@ function EditProject() {
       await axios
         .put(
           `${process.env.REACT_APP_API_URL}/api/projects/${project.id}`,
-          values
+          values,
+          {
+            withCredentials: true,
+          }
         )
         .then((res) => {
           if (res.status === 200) {
